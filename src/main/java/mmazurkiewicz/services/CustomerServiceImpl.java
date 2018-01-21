@@ -2,6 +2,7 @@ package mmazurkiewicz.services;
 
 import mmazurkiewicz.api.v1.mapper.CustomerMapper;
 import mmazurkiewicz.api.v1.model.CustomerDTO;
+import mmazurkiewicz.domain.Customer;
 import mmazurkiewicz.repositories.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,18 @@ public class CustomerServiceImpl implements CustomerService {
                 .findById(id)
                 .map(customerMapper::customerToCustomerDTO)
                 .orElseThrow(RuntimeException::new);
+    }
+
+    @Override
+    public CustomerDTO createNewCustomer(CustomerDTO customerDTO) {
+        Customer customer = customerMapper.customerDTOToCustomer(customerDTO);
+
+        Customer savedCustomer = customerRepository.save(customer);
+
+        CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(savedCustomer);
+
+        returnDTO.setCustomerUrl("/api/v1/customer/" + savedCustomer.getId());
+
+        return returnDTO;
     }
 }
