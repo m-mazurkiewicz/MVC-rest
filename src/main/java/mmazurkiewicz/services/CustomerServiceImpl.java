@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
                     customerDTO.setCustomerUrl(BASE_URL + "/" + id);
                     return customerDTO;
                 })
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(ResourceNotFoundException::new);
     }
 
     @Override
