@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static mmazurkiewicz.controllers.v1.CustomerController.BASE_URL;
+
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -26,7 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .stream()
                 .map(customer -> {
                     CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
-                    customerDTO.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    customerDTO.setCustomerUrl(BASE_URL + "/" + customer.getId());
                     return customerDTO;
                 })
                 .collect(Collectors.toList());
@@ -43,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .findById(id)
                 .map(customerMapper::customerToCustomerDTO)
                 .map(customerDTO -> {
-                    customerDTO.setCustomerUrl("/api/v1/customer/" + id);
+                    customerDTO.setCustomerUrl(BASE_URL + "/" + id);
                     return customerDTO;
                 })
                 .orElseThrow(RuntimeException::new);
@@ -59,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(savedCustomer);
 
-        returnDTO.setCustomerUrl("/api/v1/customer/" + savedCustomer.getId());
+        returnDTO.setCustomerUrl(BASE_URL + "/" + savedCustomer.getId());
 
         return returnDTO;
     }
@@ -85,7 +87,7 @@ public class CustomerServiceImpl implements CustomerService {
 
             CustomerDTO returnDTO = customerMapper.customerToCustomerDTO(customerRepository.save(customer));
 
-            returnDTO.setCustomerUrl("/api/v1/customer/" + id);
+            returnDTO.setCustomerUrl(BASE_URL + "/" + id);
 
             return returnDTO;
         }).orElseThrow(RuntimeException::new);

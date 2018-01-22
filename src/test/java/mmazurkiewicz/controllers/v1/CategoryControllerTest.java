@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
 
+import static mmazurkiewicz.controllers.v1.CategoryController.BASE_URL;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.*;
@@ -56,7 +57,7 @@ public class CategoryControllerTest {
 
         when(categoryService.getAllCategories()).thenReturn(categoryDTOS);
 
-        mockMvc.perform(get("/api/v1/categories/")
+        mockMvc.perform(get(BASE_URL + "/")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.categories", hasSize(2)));
@@ -70,7 +71,7 @@ public class CategoryControllerTest {
 
         when(categoryService.getCategoryByName(anyString())).thenReturn(categoryDTO1);
 
-        mockMvc.perform(get("/api/v1/categories/Jim")
+        mockMvc.perform(get(BASE_URL + "/Jim")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)));
