@@ -1,10 +1,11 @@
 package mmazurkiewicz.bootstrap;
 
-
 import mmazurkiewicz.domain.Category;
 import mmazurkiewicz.domain.Customer;
+import mmazurkiewicz.domain.Vendor;
 import mmazurkiewicz.repositories.CategoryRepository;
 import mmazurkiewicz.repositories.CustomerRepository;
+import mmazurkiewicz.repositories.VendorRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -13,16 +14,19 @@ public class Bootstrap implements CommandLineRunner{
 
     private CategoryRepository categoryRepository;
     private CustomerRepository customerRepository;
+    private VendorRepository vendorRepository;
 
-    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
+    public Bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository, VendorRepository vendorRepository) {
         this.categoryRepository = categoryRepository;
         this.customerRepository = customerRepository;
+        this.vendorRepository = vendorRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
         loadCategories();
         loadCustomers();
+        loadVendors();
     }
 
     private void loadCategories(){
@@ -94,5 +98,22 @@ public class Bootstrap implements CommandLineRunner{
         customerRepository.save(customer7);
 
         System.out.println("Customer data loaded " + customerRepository.count());
+    }
+
+    private void loadVendors(){
+        Vendor vendor = new Vendor();
+        vendor.setName("Western Tasty Fruits Ltd.");
+
+        Vendor vendor1 = new Vendor();
+        vendor1.setName("Exotic Fruits Company");
+
+        Vendor vendor2 = new Vendor();
+        vendor2.setName("Home Fruits");
+
+        vendorRepository.save(vendor);
+        vendorRepository.save(vendor1);
+        vendorRepository.save(vendor2);
+
+        System.out.println("Loaded vendors: " + vendorRepository.count());
     }
 }

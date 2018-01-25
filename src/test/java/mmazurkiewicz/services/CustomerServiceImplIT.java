@@ -6,6 +6,7 @@ import mmazurkiewicz.bootstrap.Bootstrap;
 import mmazurkiewicz.domain.Customer;
 import mmazurkiewicz.repositories.CategoryRepository;
 import mmazurkiewicz.repositories.CustomerRepository;
+import mmazurkiewicz.repositories.VendorRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +32,9 @@ public class CustomerServiceImplIT {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    VendorRepository vendorRepository;
+
     CustomerService customerService;
 
     @Before
@@ -39,7 +43,7 @@ public class CustomerServiceImplIT {
         System.out.println(categoryRepository.findAll().size());
 
         //setup data for testing
-        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository);
+        Bootstrap bootstrap = new Bootstrap(categoryRepository, customerRepository, vendorRepository);
         bootstrap.run();
 
         customerService = new CustomerServiceImpl(CustomerMapper.INSTANCE, customerRepository);
